@@ -1,0 +1,27 @@
+{
+	"manifest_version": 2,
+	"name": "DOM Distiller",
+	"description": "Distills the DOM",
+	"version": "0.1",
+	"icons": {
+		"128": "icon/128.png",
+		"48": "icon/48.png"
+	},
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"permissions": [
+		"activeTab"
+	],
+	"browser_action": {
+		"default_icon": {
+			"19": "icon/19.png",
+			"38": "icon/38.png"
+		},
+		"default_title": "Distill"
+	},
+	"web_accessible_resources": [
+		"page/*"
+	]
+}
