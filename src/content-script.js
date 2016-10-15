@@ -16,5 +16,6 @@ if(existingIframe) {
     iframe.style.width = "100vw";
     iframe.style.height = "100vh";
     iframe.style.background = "white";
+    iframe.style.border = "none";
     document.documentElement.appendChild(iframe);
 }
