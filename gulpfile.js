@@ -31,7 +31,10 @@ gulp.task("build:dom_distiller_viewer", ["extract"], () => {
     const spinner = fs.readFileSync("out/dom-distiller/images/dom_distiller_material_spinner.svg", "utf8");
     return gulp.src("out/dom-distiller/html/dom_distiller_viewer.html", {base: "./"})
     .pipe(replace("$6", spinner))
-    .pipe(replace("$2", `<link href="../css/distilledpage.css" rel="stylesheet" type="text/css">`))
+    .pipe(replace("$2", "" +
+`<link href="../css/distilledpage.css" rel="stylesheet" type="text/css">
+<script src="../javascript/dom_distiller_viewer.js" defer></script>
+<script src="../../viewer.js" defer></script>`))
     .pipe(gulp.dest("./"));
 });
 

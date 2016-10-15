@@ -1,9 +1,20 @@
 chrome.browserAction.onClicked.addListener(tab => {
 	chrome.tabs.executeScript(tab.id, {
-		file: "page/dom-distiller.js"
+		code: "" +
+`
+var tabID = ${tab.id};
+var $$OPTIONS = {};
+var $$STRINGIFY = true;
+`
 	}, () => {
 		chrome.tabs.executeScript(tab.id, {
-			file: "page/page.js"
+			file: "dom-distiller/javascript/domdistiller.js"
+		}, ([result]) => {
+			localStorage["result_" + tab.id] = result;
+			console.log("here");
+			chrome.tabs.executeScript(tab.id, {
+				file: "content-script.js"
+			});
 		});
 	});
 });
