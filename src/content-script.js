@@ -9,14 +9,29 @@ if(existingIframe) {
         document.body.setAttribute("style", window.old.bodyStyle);
     }
 } else {
+    window.addEventListener("message", ({data, origin}) => {
+        console.log(data, origin);
+        if(origin === "chrome-extension://" + chrome.runtime.id) {
+            if(data.action) {
+                switch(data.action) {
+                case "setTitle":
+                    document.title = data.title;
+                    break;
+                }
+            }
+        }
+    });
+
     window.old = {
         title: document.title,
         bodyStyle: document.body.getAttribute("style")
     };
     document.body.setAttribute("style", "display: none !important");
+
     const iframe = document.createElement("iframe");
     iframe.id = iframeID;
     iframe.src = chrome.runtime.getURL("dom-distiller/html/dom_distiller_viewer.html") + "#" + tabID;
+
     const style = {
         zIndex: 100000000,
         position: "fixed",
@@ -33,5 +48,6 @@ if(existingIframe) {
     Object.keys(style).forEach(property => {
         iframe.style[property] = style[property];
     });
+
     document.documentElement.appendChild(iframe);
 }
