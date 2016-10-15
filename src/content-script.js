@@ -1,10 +1,21 @@
 /* global tabID */
 "use strict";
-const existingIframe = document.querySelector("iframe#dom-distiller-result-iframe");
+var iframeID = "dom-distiller-result-iframe";
+var existingIframe = document.getElementById(iframeID);
 if(existingIframe) {
     existingIframe.remove();
+    if("old" in window) {
+        document.title = window.old.title;
+        document.body.setAttribute("style", window.old.bodyStyle);
+    }
 } else {
+    window.old = {
+        title: document.title,
+        bodyStyle: document.body.getAttribute("style")
+    };
+    document.body.setAttribute("style", "display: none !important");
     const iframe = document.createElement("iframe");
+    iframe.id = iframeID;
     iframe.src = chrome.runtime.getURL("dom-distiller/html/dom_distiller_viewer.html") + "#" + tabID;
     const style = {
         zIndex: 100000000,
