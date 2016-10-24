@@ -15,6 +15,7 @@ setTitle = (...args) => {
 const result = JSON.parse(localStorage["result_" + location.hash.substr(1)]);
 addToPage(result[2][1]);
 setTitle(result[1]);
+showLoadingIndicator(true);
 
 chrome.storage.sync.get({theme: "light", font: "sans-serif"}, ({theme, font}) => {
 	useTheme(theme);
