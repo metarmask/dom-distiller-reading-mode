@@ -2,6 +2,7 @@
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-replace": "^0.5.4"
+    "gulp-replace": "^0.5.4",
+    "gulp-changed": "^1.3.2"
   }
 }
