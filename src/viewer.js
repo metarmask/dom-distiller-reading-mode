@@ -7,9 +7,9 @@ document.body.style.fontSize = "1.33333333em";
 document.body.className = "light sans-serif";
 
 const oldSetTitle = setTitle;
-setTitle = () => {
-    window.top.postMessage({action: "setTitle", title: arguments[0]}, "*");
-    oldSetTitle.apply(window, arguments);
+setTitle = (...args) => {
+    window.top.postMessage({action: "setTitle", title: args[0]}, "*");
+    oldSetTitle.apply(window, args);
 }
 
 const result = JSON.parse(localStorage["result_" + location.hash.substr(1)]);
