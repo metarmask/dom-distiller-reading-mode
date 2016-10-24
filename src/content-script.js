@@ -30,7 +30,7 @@ if(existingIframe) {
 
     const iframe = document.createElement("iframe");
     iframe.id = iframeID;
-    iframe.src = chrome.runtime.getURL("dom_distiller/html/dom_distiller_viewer.html") + "#" + tabID;
+    iframe.src = chrome.runtime.getURL("external/dom-distiller-core/html/dom_distiller_viewer.html") + "#" + tabID;
 
     const style = {
         zIndex: 100000000,
