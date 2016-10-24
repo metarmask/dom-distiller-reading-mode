@@ -14,7 +14,7 @@
 
 		git clone https://github.com/chromium/dom-distiller-dist.git
 
-4. Get [the core folder of the Chromium component dom-distiller](https://chromium.googlesource.com/chromium/src/+archive/master/components/dom_distiller/core.tar.gz) and put it into `src/external/chromium/components/dom_distiller/`.
+4. Get [the core folder of the Chromium component dom_distiller](https://chromium.googlesource.com/chromium/src/+archive/master/components/dom_distiller/core.tar.gz) and put it into `src/external/chromium/components/dom_distiller/`.
 
 5. Build the project using Gulp:
 

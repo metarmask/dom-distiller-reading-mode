@@ -23,6 +23,6 @@
 		"default_title": "Distill"
 	},
 	"web_accessible_resources": [
-		"dom-distiller/html/dom_distiller_viewer.html"
+		"dom_distiller/html/dom_distiller_viewer.html"
 	]
 }

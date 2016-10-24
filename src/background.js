@@ -8,7 +8,7 @@ var $$STRINGIFY = true;
 `
 	}, () => {
 		chrome.tabs.executeScript(tab.id, {
-			file: "dom-distiller/javascript/domdistiller.js"
+			file: "dom_distiller/javascript/domdistiller.js"
 		}, ([result]) => {
 			localStorage["result_" + tab.id] = result;
 			console.log("here");
