@@ -5,7 +5,7 @@ const changed = require("gulp-changed");
 const replace = require("gulp-replace");
 const del = require("del");
 
-const distillerCore = "src/external/chromium/components/dom-distiller/core";
+const distillerCore = "src/external/chromium/components/dom_distiller/core";
 const allChildren = "/**/*"
 
 gulp.task("clean", () => {
@@ -20,8 +20,8 @@ gulp.task("extract:distillerCore", ["clean"], () => {
         distillerCore + "/images" + allChildren,
         distillerCore + "/javascript" + allChildren
     ], {base: distillerCore})
-    .pipe(changed("out/dom-distiller"))
-    .pipe(gulp.dest("out/dom-distiller"));
+    .pipe(changed("out/dom_distiller"))
+    .pipe(gulp.dest("out/dom_distiller"));
 });
 
 gulp.task("extract:internal-src", ["clean"], () => {
@@ -33,8 +33,8 @@ gulp.task("extract:internal-src", ["clean"], () => {
 gulp.task("extract", ["extract:distillerCore", "extract:internal-src"]);
 
 gulp.task("build:dom_distiller_viewer", ["extract"], () => {
-    const spinner = fs.readFileSync("out/dom-distiller/images/dom_distiller_material_spinner.svg", "utf8");
-    return gulp.src("out/dom-distiller/html/dom_distiller_viewer.html", {base: "./"})
+    const spinner = fs.readFileSync("out/dom_distiller/images/dom_distiller_material_spinner.svg", "utf8");
+    return gulp.src("out/dom_distiller/html/dom_distiller_viewer.html", {base: "./"})
     .pipe(changed("./"))
     .pipe(replace("$6", spinner))
     .pipe(replace("$2", "" +
