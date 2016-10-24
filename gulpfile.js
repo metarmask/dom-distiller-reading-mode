@@ -45,8 +45,10 @@ gulp.task("build:dom_distiller_viewer", ["extract"], () => {
 });
 
 gulp.task("build:domdistiller", ["extract"], () => {
-    const js = fs.readFileSync("src/external/dom-distiller/out/package/js/domdistiller.js", "utf8");
-    return gulp.src("out/dom-distiller-dist/js/domdistiller.js", {base: "./"})
+    // The actual JavaScript from dom-distiller-dist
+    const js = fs.readFileSync("src/external/dom-distiller-dist/js/domdistiller.js", "utf8");
+    // The wrapper from the Chromium component
+    return gulp.src("out/dom_distiller/js/domdistiller.js", {base: "./"})
     .pipe(changed("./"))
     .pipe(replace(`<include src="../../../../third_party/dom_distiller_js/dist/js/domdistiller.js"/>`, js))
     .pipe(gulp.dest("./"));
