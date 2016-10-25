@@ -65,7 +65,16 @@ gulp.task("build", ["clean"], () => {
 			const distSource = gulp.src(distillerDistJS);
 			distSource.on("data", ({contents: dist}) => {
 				streamToPromise(
-					wrapperSource.pipe(replace(
+					wrapperSource
+					.pipe(replace(/^\(function\(/m, "function distill("))
+					.pipe(replace(/^}\)\(/m, "" + `
+}
+((...args) => {
+	if(!window.$$MANUAL) {
+		distill(...args);
+	}
+})(`))
+					.pipe(replace(
 						`<include src="../../../../third_party/dom_distiller_js/dist/js/domdistiller.js"/>`,
 						dist.toString()
 					))
