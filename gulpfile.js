@@ -23,7 +23,7 @@ gulp.task("clean", () => {
 	return del(["out"]);
 });
 
-gulp.task("default", [], () => {
+gulp.task("build", () => {
 	return Promise.all([
 		streamToPromise(
 			gulp.src(
@@ -93,3 +93,5 @@ gulp.task("default", [], () => {
 		})
 	]);
 });
+
+gulp.task("default", ["build"]);
