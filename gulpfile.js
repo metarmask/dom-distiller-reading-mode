@@ -3,6 +3,7 @@ const replace = require("gulp-replace");
 
 const del = require("del");
 const streamToPromise = require("stream-to-promise");
+const vinylFS = require("vinyl-fs");
 
 /* Paths */
 const allInside = "/**/*";
@@ -23,7 +24,7 @@ gulp.task("clean", () => {
 	return del(["out"]);
 });
 
-gulp.task("build", () => {
+gulp.task("build", ["clean"], () => {
 	return Promise.all([
 		streamToPromise(
 			gulp.src(
@@ -52,7 +53,7 @@ gulp.task("build", () => {
 				].map(s => "!" + s)),
 				{base: srcFolder}
 			)
-			.pipe(gulp.dest(outFolder))
+			.pipe(vinylFS.symlink(outFolder, {relative: true}))
 		),
 		new Promise((resolve, reject) => {
 			// Replace parts of the wrapper script with the real distiller
