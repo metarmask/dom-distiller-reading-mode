@@ -1,4 +1,3 @@
-"use strict";
 const groupValues = {};
 
 function updateClassName() {
@@ -18,5 +17,3 @@ function updateClassName() {
 		updateClassName();
 	});
 });
-
-document.body.style.fontSize = "1.33333333em";
