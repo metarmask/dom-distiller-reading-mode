@@ -22,6 +22,10 @@
 		},
 		"default_title": "Distill"
 	},
+	"options_ui": {
+		"page": "options/options.html",
+		"chrome_style": true
+	},
 	"web_accessible_resources": [
 		"external/dom-distiller-core/html/dom_distiller_viewer.html"
 	]
