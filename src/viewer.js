@@ -8,8 +8,8 @@ document.body.className = "light sans-serif";
 
 const oldSetTitle = setTitle;
 setTitle = (...args) => {
-    window.top.postMessage({action: "setTitle", title: args[0]}, "*");
-    oldSetTitle.apply(window, args);
+	window.top.postMessage({action: "setTitle", title: args[0]}, "*");
+	oldSetTitle.apply(window, args);
 }
 
 const result = JSON.parse(localStorage["result_" + location.hash.substr(1)]);
