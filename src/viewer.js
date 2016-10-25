@@ -1,5 +1,5 @@
 /* eslint-disable no-native-reassign */
-/* global addToPage, setTitle */
+/* global addToPage, setTitle, showLoadingIndicator, useTheme, useFontFamily */
 
 // Makes regular text have the regular text size
 document.body.style.fontSize = "1.33333333em";
