@@ -12,7 +12,9 @@ setTitle = (...args) => {
 	oldSetTitle.apply(window, args);
 }
 
-const result = JSON.parse(localStorage["result_" + location.hash.substr(1)]);
+const storageKey = "result_" + location.hash.substr(1);
+const result = JSON.parse(localStorage[storageKey]);
+localStorage.removeItem(storageKey);
 addToPage(result[2][1]);
 setTitle(result[1]);
 showLoadingIndicator(true);
