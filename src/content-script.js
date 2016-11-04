@@ -1,9 +1,11 @@
+/* eslint-env browser, webextensions */
 /* global tabID */
 "use strict";
-var iframeID = "dom-distiller-result-iframe";
-var existingIframe = document.getElementById(iframeID);
-if(existingIframe) {
-	existingIframe.remove();
+
+window.iframeID = "dom-distiller-result-iframe";
+window.existingIframe = document.getElementById(window.iframeID);
+if(window.existingIframe) {
+	window.existingIframe.remove();
 	if("old" in window) {
 		document.title = window.old.title;
 		document.body.setAttribute("style", window.old.bodyStyle);
@@ -11,7 +13,7 @@ if(existingIframe) {
 } else {
 	window.addEventListener("message", ({data, origin}) => {
 		console.log(data, origin);
-		if(origin === "chrome-extension://" + chrome.runtime.id) {
+		if(origin === `chrome-extension://${chrome.runtime.id}`) {
 			if(data.action) {
 				switch(data.action) {
 				case "setTitle":
@@ -29,8 +31,8 @@ if(existingIframe) {
 	document.body.setAttribute("style", "display: none !important");
 
 	const iframe = document.createElement("iframe");
-	iframe.id = iframeID;
-	iframe.src = chrome.runtime.getURL("external/dom-distiller-core/html/dom_distiller_viewer.html") + "#" + tabID;
+	iframe.id = window.iframeID;
+	iframe.src = `${chrome.runtime.getURL("external/dom-distiller-core/html/dom_distiller_viewer.html")}#${tabID}`;
 
 	const style = {
 		zIndex: 100000000,

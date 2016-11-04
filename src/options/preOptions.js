@@ -1,4 +1,5 @@
 "use strict";
+
 /* global distill */
 /* eslint-disable no-unused-vars */
 var tabID = "options";

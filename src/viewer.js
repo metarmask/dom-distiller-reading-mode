@@ -1,3 +1,4 @@
+/* eslint-env browser, webextensions */
 /* eslint-disable no-native-reassign */
 /* global addToPage, setTitle, showLoadingIndicator, useTheme, useFontFamily */
 
@@ -10,13 +11,14 @@ const oldSetTitle = setTitle;
 setTitle = (...args) => {
 	window.top.postMessage({action: "setTitle", title: args[0]}, "*");
 	oldSetTitle.apply(window, args);
-}
+};
 
-const storageKey = "result_" + location.hash.substr(1);
+const storageKey = `result_${location.hash.substr(1)}`;
 const result = JSON.parse(localStorage[storageKey]);
+const [, resultTitle, [, resultHTML]] = result;
 localStorage.removeItem(storageKey);
-addToPage(result[2][1]);
-setTitle(result[1]);
+addToPage(resultHTML);
+setTitle(resultTitle);
 showLoadingIndicator(true);
 
 chrome.storage.sync.get({theme: "light", font: "sans-serif"}, ({theme, font}) => {
