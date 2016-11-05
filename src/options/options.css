@@ -1,15 +1,21 @@
 .select-button {
 	display: block;
-	border: none;
-	background: none;
 	width: 2em;
 	height: 2em;
-	font-size: 1em;
-	border-radius: 50%;
-	font: inherit;
-	color: inherit;
+	margin: 0 0.2em;
+
 	background: inherit;
 	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 50%;
+
+	font: inherit;
+	font-size: 1em;
+	white-space: nowrap;
+	color: inherit;
+}
+
+.dark .select-button-font {
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .select-button-group {

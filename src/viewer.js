@@ -20,7 +20,24 @@ addToPage(resultHTML);
 setTitle(resultTitle);
 showLoadingIndicator(true);
 
-chrome.storage.sync.get({theme: "light", font: "sans-serif"}, ({theme, font}) => {
-	useTheme(theme);
-	useFontFamily(font);
+const storageActions = {
+	theme: useTheme,
+	font: useFontFamily
+};
+chrome.storage.sync.get({theme: "light", font: "sans-serif"}, items => {
+	Object.keys(items)
+	.forEach(key => storageActions[key](items[key]));
 });
+
+chrome.storage.onChanged.addListener((changes, area) => {
+	if(area === "sync") {
+		Object.keys(changes)
+		.forEach(key => storageActions[key](changes[key].newValue));
+	}
+});
+
+if(storageKey === "result-options") {
+	const script = document.createElement("script");
+	script.src = "../../../options/options.js";
+	document.head.appendChild(script);
+}
