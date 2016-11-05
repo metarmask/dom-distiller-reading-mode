@@ -1,6 +1,8 @@
 /* eslint-env node */
 const gulp = require("gulp");
 const replace = require("gulp-replace");
+const svg2PNG = require("gulp-svg2png");
+const rename = require("gulp-rename");
 
 const del = require("del");
 const streamToPromise = require("stream-to-promise");
@@ -9,6 +11,8 @@ const vinylFS = require("vinyl-fs");
 /* Paths */
 const allInside = "/**/*";
 const srcFolder = "src";
+const srcIcons = `${srcFolder}/icons`;
+const srcManifest = `${srcFolder}/manifest.json`;
 const srcExternal = `${srcFolder}/external`;
 const distillerDistJS = `${srcExternal}/dom-distiller-dist/js/domdistiller.js`;
 
@@ -21,6 +25,15 @@ const chromiumLicense = `${srcExternal}/chromium/LICENSE`;
 const outFolder = "out";
 const outExternal = `${outFolder}/external`;
 const outDistillerCore = `${outExternal}/dom-distiller-core`;
+
+function walkPairs(object, pairStep) {
+	Object.keys(object).forEach(key => {
+		pairStep(key, object[key]);
+		if(object[key] instanceof Object) {
+			walkPairs(object[key], pairStep);
+		}
+	});
+}
 
 gulp.task("clean", () => {
 	return del(["out"]);
@@ -55,12 +68,39 @@ gulp.task("build", ["clean"], () => {
 					srcFolder + allInside
 				].concat([
 					// Except
-					srcExternal + allInside
+					srcExternal,
+					srcExternal + allInside,
+					srcIcons,
+					srcIcons + allInside
 				].map(s => `!${s}`)),
 				{base: srcFolder}
 			)
 			.pipe(vinylFS.symlink(outFolder, {relative: true}))
 		),
+		(() => {
+			const convertions = [];
+			const svgToPNGPathRegex = /(.+?\.svg)-(\d+)\.png/;
+			gulp.src(srcManifest)
+			.on("data", ({contents: manifest}) => {
+				manifest = JSON.parse(manifest.toString());
+				walkPairs(manifest, (key, value) => {
+					if(typeof value === "string") {
+						const match = value.match(svgToPNGPathRegex);
+						if(match) {
+							const [pngPath, svgPath, size] = match;
+							convertions.push(streamToPromise(
+								gulp.src(`${srcFolder}/${svgPath}`, {base: srcFolder})
+								.pipe(gulp.dest(outFolder))
+								.pipe(svg2PNG({width: size, height: size}))
+								.pipe(rename(pngPath))
+								.pipe(gulp.dest(outFolder))
+							));
+						}
+					}
+				});
+			});
+			return Promise.all(convertions);
+		})(),
 		new Promise((resolve, reject) => {
 			// Replace parts of the wrapper script with the real distiller
 			const wrapperSource = gulp.src(
