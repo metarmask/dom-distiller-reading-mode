@@ -3,6 +3,7 @@ const gulp = require("gulp");
 const replace = require("gulp-replace");
 const svg2PNG = require("gulp-svg2png");
 const rename = require("gulp-rename");
+const util = require("gulp-util");
 
 const del = require("del");
 const streamToPromise = require("stream-to-promise");
@@ -14,6 +15,7 @@ const srcFolder = "src";
 const srcIcons = `${srcFolder}/icons`;
 const srcManifest = `${srcFolder}/manifest.json`;
 const srcExternal = `${srcFolder}/external`;
+const inactiveIcon = `${srcIcons}/browserAction/inactive.svg`;
 const distillerDistJS = `${srcExternal}/dom-distiller-dist/js/domdistiller.js`;
 
 const distillerCore = `${srcExternal}/chromium/components/dom_distiller/core`;
@@ -79,6 +81,16 @@ gulp.task("build", ["clean"], () => {
 		),
 		(() => {
 			const convertions = [];
+			const addConvertion = ({svgPath, pngPath, size, afterSrc}) => {
+				convertions.push(streamToPromise(
+					gulp.src(svgPath, {base: srcFolder})
+					.pipe(afterSrc ? afterSrc : util.noop())
+					.pipe(gulp.dest(outFolder))
+					.pipe(svg2PNG({width: size, height: size}))
+					.pipe(rename(pngPath))
+					.pipe(gulp.dest(outFolder))
+				));
+			};
 			const svgToPNGPathRegex = /(.+?\.svg)-(\d+)\.png/;
 			gulp.src(srcManifest)
 			.on("data", ({contents: manifest}) => {
@@ -88,13 +100,20 @@ gulp.task("build", ["clean"], () => {
 						const match = value.match(svgToPNGPathRegex);
 						if(match) {
 							const [pngPath, svgPath, size] = match;
-							convertions.push(streamToPromise(
-								gulp.src(`${srcFolder}/${svgPath}`, {base: srcFolder})
-								.pipe(gulp.dest(outFolder))
-								.pipe(svg2PNG({width: size, height: size}))
-								.pipe(rename(pngPath))
-								.pipe(gulp.dest(outFolder))
-							));
+							const svgPathInSrc = `${srcFolder}/${svgPath}`;
+							if(svgPathInSrc === inactiveIcon) {
+								addConvertion({
+									svgPath: svgPathInSrc,
+									pngPath: pngPath.replace("inactive", "active"),
+									size,
+									afterSrc: replace(`fill="#9c27b0"`, `fill="#ff4081"`)
+								});
+							}
+							addConvertion({
+								svgPath: svgPathInSrc,
+								pngPath,
+								size
+							});
 						}
 					}
 				});
