@@ -17,3 +17,9 @@ var $$STRINGIFY = true;
 		});
 	});
 });
+
+chrome.storage.onChanged.addListener((changes, area) => {
+	Object.keys(changes).forEach(key => {
+		localStorage[`storage-${area}-${key}`] = changes[key].newValue;
+	});
+});

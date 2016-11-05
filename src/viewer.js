@@ -4,7 +4,8 @@
 // Makes regular text have the regular text size
 document.body.style.fontSize = "1.33333333em";
 
-document.body.className = "light sans-serif";
+// Has to be synchronous to prevent white flash
+document.body.className = `${localStorage["storage-sync-theme"]} ${localStorage["storage-sync-font"]}`;
 
 const oldSetTitle = setTitle;
 setTitle = (...args) => {
@@ -24,10 +25,6 @@ const storageActions = {
 	theme: useTheme,
 	font: useFontFamily
 };
-chrome.storage.sync.get({theme: "light", font: "sans-serif"}, items => {
-	Object.keys(items)
-	.forEach(key => storageActions[key](items[key]));
-});
 
 chrome.storage.onChanged.addListener((changes, area) => {
 	if(area === "sync") {
