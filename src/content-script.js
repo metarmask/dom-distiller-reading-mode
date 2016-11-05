@@ -4,12 +4,16 @@
 window.iframeID = "dom-distiller-result-iframe";
 window.existingIframe = document.getElementById(window.iframeID);
 if(window.existingIframe) {
+	chrome.runtime.sendMessage({active: false});
+
 	window.existingIframe.remove();
 	if("old" in window) {
 		document.title = window.old.title;
 		document.body.setAttribute("style", window.old.bodyStyle);
 	}
 } else {
+	chrome.runtime.sendMessage({active: true});
+
 	window.addEventListener("message", ({data, origin}) => {
 		if(origin === `chrome-extension://${chrome.runtime.id}`) {
 			if(data.action) {
