@@ -1,3 +1,12 @@
+chrome.runtime.onInstalled.addListener(({reason}) => {
+	if(reason === "install") {
+		chrome.storage.sync.set({
+			theme: "light",
+			font: "sans-serif"
+		});
+	}
+});
+
 chrome.browserAction.onClicked.addListener(tab => {
 	chrome.tabs.executeScript(tab.id, {
 		code: "" +
