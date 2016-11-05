@@ -1,6 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "DOM Distiller",
+	"name": "DOM Distiller Reading Mode",
+	"short_name": "DOM Distiller",
 	"description": "Distill and display only the important content to enjoy a more focused reading experience",
 	"version": "0.1",
 	"icons": {
