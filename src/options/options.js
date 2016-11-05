@@ -28,8 +28,8 @@ headings.themes.parentElement.insertBefore(parseHTML("" +
 </p>`), headings.themes.nextElementSibling);
 headings.fonts.parentElement.insertBefore(parseHTML("" +
 `<p class="select-button-group" id="select-button-group-font">
-	<button class="select-button select-button-font serif" id="select-button-font-serif" title="Serif">Se</button>
 	<button class="select-button select-button-font sans-serif select-button-selected" id="select-button-font-sans-serif" title="Sans serif">Sa</button>
+	<button class="select-button select-button-font serif" id="select-button-font-serif" title="Serif">Se</button>
 	<button class="select-button select-button-font monospace" id="select-button-font-monospace" title="Monospace">Mo</button>
 </p>`), headings.fonts.nextElementSibling);
 
