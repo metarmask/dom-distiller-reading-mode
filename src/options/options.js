@@ -5,7 +5,7 @@ function updateClassName() {
 }
 
 ["theme", "font"].forEach(selectGroup => {
-	document.querySelector("#select-button-group-" + selectGroup)
+	document.querySelector(`#select-button-group-${selectGroup}`)
 	.addEventListener("click", function({target}) {
 		if(!target.classList.contains("select-button")) {
 			return;

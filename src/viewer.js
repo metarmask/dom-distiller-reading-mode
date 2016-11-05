@@ -1,4 +1,4 @@
-/* eslint-disable no-native-reassign */
+/* eslint-disable no-native-reassign, no-global-assign */
 /* global addToPage, setTitle, showLoadingIndicator, useTheme, useFontFamily */
 
 // Makes regular text have the regular text size
@@ -12,7 +12,7 @@ setTitle = (...args) => {
 	oldSetTitle.apply(window, args);
 };
 
-const storageKey = `result_${location.hash.substr(1)}`;
+const storageKey = `result-${location.hash.substr(1)}`;
 const result = JSON.parse(localStorage[storageKey]);
 const [, resultTitle, [, resultHTML]] = result;
 localStorage.removeItem(storageKey);

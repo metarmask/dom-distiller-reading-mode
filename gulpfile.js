@@ -9,17 +9,17 @@ const vinylFS = require("vinyl-fs");
 /* Paths */
 const allInside = "/**/*";
 const srcFolder = "src";
-const srcExternal = srcFolder + "/external";
-const distillerDistJS = srcExternal + "/dom-distiller-dist/js/domdistiller.js";
+const srcExternal = `${srcFolder}/external`;
+const distillerDistJS = `${srcExternal}/dom-distiller-dist/js/domdistiller.js`;
 
-const distillerCore = srcExternal + "/chromium/components/dom_distiller/core";
-const distillerCoreViewerHTML = distillerCore + "/html/dom_distiller_viewer.html";
-const distillerCoreWrapper = distillerCore + "/javascript/domdistiller.js";
-const distillerCoreSpinner = distillerCore + "/images/dom_distiller_material_spinner.svg";
+const distillerCore = `${srcExternal}/chromium/components/dom_distiller/core`;
+const distillerCoreViewerHTML = `${distillerCore}/html/dom_distiller_viewer.html`;
+const distillerCoreWrapper = `${distillerCore}/javascript/domdistiller.js`;
+const distillerCoreSpinner = `${distillerCore}/images/dom_distiller_material_spinner.svg`;
 
 const outFolder = "out";
-const outExternal = outFolder + "/external";
-const outDistillerCore = outExternal + "/dom-distiller-core";
+const outExternal = `${outFolder}/external`;
+const outDistillerCore = `${outExternal}/dom-distiller-core`;
 
 gulp.task("clean", () => {
 	return del(["out"]);
@@ -30,16 +30,16 @@ gulp.task("build", ["clean"], () => {
 		streamToPromise(
 			gulp.src(
 				[
-					distillerCore + "/css" + allInside,
-					distillerCore + "/images" + allInside,
-					distillerCore + "/html" + allInside,
-					distillerCore + "/javascript" + allInside,
+					`${distillerCore}/css${allInside}`,
+					`${distillerCore}/images${allInside}`,
+					`${distillerCore}/html${allInside}`,
+					`${distillerCore}/javascript${allInside}`
 				].concat([
 					// Except
 					distillerCoreViewerHTML,
 					distillerCoreSpinner,
 					distillerCoreWrapper
-				].map(s => "!" + s)),
+				].map(s => `!${s}`)),
 				{base: distillerCore}
 			)
 			.pipe(gulp.dest(outDistillerCore))
@@ -51,7 +51,7 @@ gulp.task("build", ["clean"], () => {
 				].concat([
 					// Except
 					srcExternal + allInside
-				].map(s => "!" + s)),
+				].map(s => `!${s}`)),
 				{base: srcFolder}
 			)
 			.pipe(vinylFS.symlink(outFolder, {relative: true}))
