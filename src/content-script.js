@@ -11,7 +11,6 @@ if(window.existingIframe) {
 	}
 } else {
 	window.addEventListener("message", ({data, origin}) => {
-		console.log(data, origin);
 		if(origin === `chrome-extension://${chrome.runtime.id}`) {
 			if(data.action) {
 				switch(data.action) {
