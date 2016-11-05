@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 16 16">
-	<g transform="translate(0,-1036.4)" fill="#9c27b0">
+	<defs>
+		<filter id="inset-shadow" style="color-interpolation-filters:sRGB">
+			<feFlood result="flood" flood-opacity=".5" flood-color="rgb(0,0,0)"/>
+			<feComposite operator="out" result="composite1" in2="SourceGraphic" in="flood"/>
+			<feGaussianBlur stdDeviation="0.5" result="blur" in="composite1"/>
+			<feOffset result="offset" dx="4.46865e-15" dy="1.38778e-16"/>
+			<feComposite operator="atop" result="composite2" in2="SourceGraphic" in="offset"/>
+		</filter>
+	</defs>
+	<g filter="url(#inset-shadow)" transform="translate(0,-1036.4)" fill="#9c27b0">
 		<circle cy="1046.8" cx="3.2" r="3.2"/>
 		<circle cy="1050.4" cx="10.8" r="2"/>
 		<circle cy="1041.2" cx="11.2" r="4.8"/>
