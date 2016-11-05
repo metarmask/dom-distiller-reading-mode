@@ -1,4 +1,4 @@
-Uses the same code to distill and display web pages as the mobile version of the browser uses. The theme and the font of the viewer can be changed easily.
+Uses the same code to distill and display web pages as the mobile version of the browser uses. The theme and font of the viewer can be changed easily.
 
 Extension icons were derived from the following icons:
 * github.com/google/material-design-icons/blob/c6fc87c71001975022f979a2f6b031620e9c7ff1/action/svg/production/ic_chrome_reader_mode_48px.svg
