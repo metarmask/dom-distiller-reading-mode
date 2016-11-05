@@ -23,7 +23,7 @@
 			"24": "icons/browserAction/inactive.svg-24.png",
 			"32": "icons/browserAction/inactive.svg-32.png"
 		},
-		"default_title": "Distill"
+		"default_title": "Distill and view this page"
 	},
 	"options_ui": {
 		"page": "options/options.html",
