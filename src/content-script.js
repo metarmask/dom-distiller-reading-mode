@@ -1,4 +1,3 @@
-/* eslint-env browser, webextensions */
 /* global tabID */
 "use strict";
 

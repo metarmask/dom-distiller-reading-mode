@@ -1,4 +1,3 @@
-/* eslint-env browser, webextensions */
 /* eslint-disable no-native-reassign */
 /* global addToPage, setTitle, showLoadingIndicator, useTheme, useFontFamily */
 

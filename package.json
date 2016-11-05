@@ -13,6 +13,11 @@
 		"eslint-plugin-metarmask": "***REMOVED***"
 	},
 	"eslintConfig": {
+		"env": {
+			"browser": true,
+			"webextensions": true,
+			"es6": true
+		},
 		"plugins": [
 			"metarmask"
 		],
