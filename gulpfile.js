@@ -16,6 +16,7 @@ const distillerCore = `${srcExternal}/chromium/components/dom_distiller/core`;
 const distillerCoreViewerHTML = `${distillerCore}/html/dom_distiller_viewer.html`;
 const distillerCoreWrapper = `${distillerCore}/javascript/domdistiller.js`;
 const distillerCoreSpinner = `${distillerCore}/images/dom_distiller_material_spinner.svg`;
+const chromiumLicense = `${srcExternal}/chromium/LICENSE`;
 
 const outFolder = "out";
 const outExternal = `${outFolder}/external`;
@@ -42,6 +43,10 @@ gulp.task("build", ["clean"], () => {
 				].map(s => `!${s}`)),
 				{base: distillerCore}
 			)
+			.pipe(gulp.dest(outDistillerCore))
+		),
+		streamToPromise(
+			gulp.src(chromiumLicense)
 			.pipe(gulp.dest(outDistillerCore))
 		),
 		streamToPromise(

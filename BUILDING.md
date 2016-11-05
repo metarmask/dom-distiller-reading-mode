@@ -16,6 +16,8 @@
 
 4. Get [the core folder of the Chromium component dom_distiller](https://chromium.googlesource.com/chromium/src/+archive/master/components/dom_distiller/core.tar.gz) and put it into `src/external/chromium/components/dom_distiller/`.
 
-5. Build the project using Gulp:
+5. Get [the LICENSE file](https://chromium.googlesource.com/chromium/src/+/master/LICENSE) and put it into `src/external/chromium/`
+
+6. Build the project using Gulp:
 
 		gulp build
