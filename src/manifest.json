@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "DOM Distiller",
-	"description": "Distills the DOM",
+	"description": "Distill and display only the important content to enjoy a more focused reading experience",
 	"version": "0.1",
 	"icons": {
 		"128": "icons/extension.svg-128.png",
