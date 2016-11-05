@@ -6,6 +6,7 @@
 	"icons": {
 		"128": "icons/extension.svg-128.png",
 		"48": "icons/extension.svg-48.png",
+		"32": "icons/extension.svg-32.png",
 		"16": "icons/extension.svg-16.png"
 	},
 	"background": {
