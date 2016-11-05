@@ -72,7 +72,7 @@ gulp.task("build", ["clean"], () => {
 }
 ((...args) => {
 	if(!window.$$MANUAL) {
-		distill(...args);
+		return distill(...args);
 	}
 })(`))
 					.pipe(replace(

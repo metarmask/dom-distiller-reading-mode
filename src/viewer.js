@@ -14,7 +14,7 @@ setTitle = (...args) => {
 
 const storageKey = `result-${location.hash.substr(1)}`;
 const result = JSON.parse(localStorage[storageKey]);
-const [, resultTitle, [, resultHTML]] = result;
+const {"1": resultTitle, "2": {"1": resultHTML}} = result;
 localStorage.removeItem(storageKey);
 addToPage(resultHTML);
 setTitle(resultTitle);
