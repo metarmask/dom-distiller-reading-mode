@@ -1,4 +1,14 @@
-Uses the same code to distill and display web pages as the mobile version of the browser uses. The theme and font of the viewer can be changed easily.
+Have you ever visited a website where the text is so ugly you get a headache when trying to read or where the content was hard to find because of unimportant sidebars and share buttons? This is the extension you have all been looking for.
+
+Have ever seen the "Make page mobile-friendly" dialog appear on your phone? This extension is based on the same code that powers it.
+
+The theme and font of the viewer can be customized easily.
+
+Planned features:
+
+* Font scaling support
+
+* Multi-page article concatenation
 
 Extension icons were derived from the following icons:
 * github.com/google/material-design-icons/blob/c6fc87c71001975022f979a2f6b031620e9c7ff1/action/svg/production/ic_chrome_reader_mode_48px.svg
