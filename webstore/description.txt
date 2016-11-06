@@ -2,7 +2,7 @@ Have you ever visited a website where the text is so ugly you get a headache try
 
 This extension figures out what is important on a page and shows only that in the same consistent way every time.
 
-The theme and font of the viewer can be customized easily.
+Uses the code that powers the mobile-friendly view on phones.
 
 Planned features:
 
