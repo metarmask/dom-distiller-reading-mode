@@ -1,0 +1,16 @@
+## Gradient
+
+(Material accent colors opposite of icon color)
+
+* Start: #ffd600
+* Stop: #ffff00
+
+## Drop shadow
+
+(https://material.google.com/style/icons.html x2)
+
+* Offset X: 0
+* Offset Y: 8
+* Blur radius: 8
+* Color: #263238
+* Opacity: 40
