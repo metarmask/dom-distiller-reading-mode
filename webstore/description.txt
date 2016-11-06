@@ -1,6 +1,6 @@
 Have you ever visited a website where the text is so ugly you get a headache trying to read or where the content is hard to find because of unimportant sidebars and share buttons? This extension will fix that for you.
 
-Have ever seen the "Make page mobile-friendly" dialog appear on your phone? This extension is based on the same code.
+This extension figures out what is important on a page and shows only that in the same consistent way every time.
 
 The theme and font of the viewer can be customized easily.
 
