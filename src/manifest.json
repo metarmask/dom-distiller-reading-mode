@@ -3,7 +3,7 @@
 	"name": "DOM Distiller Reading Mode",
 	"short_name": "DOM Distiller",
 	"description": "Distill and display only the important content to enjoy a more focused reading experience",
-	"version": "0.2",
+	"version": "1.0",
 	"minimum_chrome_version": "54",
 	"icons": {
 		"128": "icons/extension.svg-128.png",
