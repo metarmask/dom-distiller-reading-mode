@@ -1,8 +1,10 @@
 chrome.runtime.onInstalled.addListener(({reason}) => {
 	if(reason === "install") {
-		chrome.storage.sync.set({
+		chrome.storage.sync.get({
 			theme: "light",
 			font: "sans-serif"
+		}, items => {
+			chrome.storage.sync.set(items);
 		});
 	}
 	const manifest = chrome.runtime.getManifest();
