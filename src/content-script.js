@@ -33,6 +33,9 @@ if(window.existingIframe) {
 	document.body.setAttribute("style", "display: none !important");
 
 	const iframe = document.createElement("iframe");
+	iframe.addEventListener("load", () => {
+		iframe.contentWindow.focus();
+	});
 	iframe.id = window.iframeID;
 	iframe.src = `${chrome.runtime.getURL("external/dom-distiller-core/html/dom_distiller_viewer.html")}#${tabID}`;
 
