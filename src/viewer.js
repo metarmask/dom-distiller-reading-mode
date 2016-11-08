@@ -17,13 +17,32 @@ setTitle = (...args) => {
 	oldSetTitle.apply(window, args);
 };
 
-const storageKey = `result-${location.hash.substr(1)}`;
-const result = JSON.parse(localStorage[storageKey]);
-const {"1": resultTitle, "2": {"1": resultHTML}} = result;
-localStorage.removeItem(storageKey);
-addToPage(resultHTML);
-setTitle(resultTitle);
-showLoadingIndicator(true);
+function handleOptionsPage() {
+	try {
+		if(top.location.href === chrome.runtime.getURL("options/options.html")) {
+			const script = document.createElement("script");
+			script.src = "../../../options/options.js";
+			document.head.appendChild(script);
+		}
+	} catch(error) {
+		return false;
+	}
+}
+
+const messageListener = result => {
+	if(result === "want-result") {
+		return;
+	}
+	result = JSON.parse(result);
+	const {"1": resultTitle, "2": {"1": resultHTML}} = result;
+	addToPage(resultHTML);
+	setTitle(resultTitle);
+	showLoadingIndicator(true);
+	handleOptionsPage();
+	chrome.runtime.onMessage.removeListener(messageListener);
+};
+chrome.runtime.onMessage.addListener(messageListener);
+chrome.runtime.sendMessage("want-result");
 
 const storageActions = {
 	theme: useTheme,
@@ -36,9 +55,3 @@ chrome.storage.onChanged.addListener((changes, area) => {
 		.forEach(key => storageActions[key](changes[key].newValue));
 	}
 });
-
-if(storageKey === "result-options") {
-	const script = document.createElement("script");
-	script.src = "../../../options/options.js";
-	document.head.appendChild(script);
-}
