@@ -7,9 +7,23 @@ chrome.runtime.onInstalled.addListener(({reason}) => {
 			chrome.storage.sync.set(items);
 		});
 	}
-	const manifest = chrome.runtime.getManifest();
+
+	// Remove localStorage keys that should not exist
+	const badKeys = [];
+	for (let i = 0; true; i++) {
+		const key = localStorage.key(i);
+		if(key === null) {
+			break;
+		} else if(key.startsWith("result-")) {
+			badKeys.push(key);
+		}
+	}
+	badKeys.forEach(key => localStorage.removeItem(key));
+
+	localStorage.removeItem("result-options");
 
 	// Save browser action icon paths to localStorage for faster access
+	const manifest = chrome.runtime.getManifest();
 	const prefix = "browserActionIcon";
 	const inactiveIcon = manifest.browser_action.default_icon;
 	localStorage[`${prefix}Inactive`] = JSON.stringify(inactiveIcon);
@@ -18,7 +32,6 @@ chrome.runtime.onInstalled.addListener(({reason}) => {
 		activeIcon[size] = inactiveIcon[size].replace("inactive", "active");
 	});
 	localStorage[`${prefix}Active`] = JSON.stringify(activeIcon);
-	localStorage.removeItem("result-options");
 });
 
 chrome.browserAction.onClicked.addListener(({id: tabID}) => {
