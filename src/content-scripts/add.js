@@ -1,5 +1,4 @@
 sessionStorage.oldTitle = document.title;
-sessionStorage.oldBodyStyle = document.body.getAttribute("style");
 
 addEventListener("message", ({data, origin}) => {
 	if(origin !== `chrome-extension://${chrome.runtime.id}`) {
@@ -34,8 +33,6 @@ addEventListener("message", ({data, origin}) => {
 	Object.keys(style).forEach(property => {
 		iframe.style[property] = style[property];
 	});
-
-	document.body.setAttribute("style", "display: none !important");
 
 	document.documentElement.appendChild(iframe);
 }

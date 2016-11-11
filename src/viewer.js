@@ -17,32 +17,36 @@ setTitle = (...args) => {
 	oldSetTitle.apply(window, args);
 };
 
-function handleOptionsPage() {
-	try {
-		if(top.location.href === chrome.runtime.getURL("options/options.html")) {
-			const script = document.createElement("script");
-			script.src = "../../../options/options.js";
-			document.head.appendChild(script);
-		}
-	} catch(error) {
-		return false;
-	}
-}
-
-const messageListener = result => {
-	if(result === "want-result") {
-		return;
-	}
+function handleResult(result) {
 	result = JSON.parse(result);
 	const {"1": resultTitle, "2": {"1": resultHTML}} = result;
 	addToPage(resultHTML);
 	setTitle(resultTitle);
 	showLoadingIndicator(true);
-	handleOptionsPage();
-	chrome.runtime.onMessage.removeListener(messageListener);
-};
-chrome.runtime.onMessage.addListener(messageListener);
-chrome.runtime.sendMessage("want-result");
+}
+
+function isOptionsPage() {
+	try {
+		return top.location.href === chrome.runtime.getURL("options/options.html");
+	} catch (error) {
+		return false;
+	}
+}
+
+if(isOptionsPage()) {
+	handleResult(localStorage["result-options"]);
+	const script = document.createElement("script");
+	script.src = "../../../options/options.js";
+	document.head.appendChild(script);
+} else {
+	chrome.tabs.getCurrent(({id}) => {
+		chrome.tabs.executeScript(id, {
+			file: "external/dom-distiller-core/javascript/domdistiller.js"
+		}, ([result]) => {
+			handleResult(result);
+		});
+	});
+}
 
 const storageActions = {
 	theme: useTheme,

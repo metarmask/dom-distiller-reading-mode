@@ -38,28 +38,15 @@ chrome.browserAction.onClicked.addListener(({id: tabID}) => {
 	chrome.tabs.executeScript(tabID, {
 		file: "content-scripts/isActive.js"
 	}, ([active]) => {
-		if(active) {
-			chrome.tabs.executeScript(tabID, {
-				file: "content-scripts/remove.js"
-			});
-			chrome.browserAction.setIcon({
-				path: JSON.parse(localStorage.browserActionIconInactive),
-				tabId: tabID
-			});
-		} else {
-			chrome.tabs.executeScript(tabID, {
-				file: "external/dom-distiller-core/javascript/domdistiller.js"
-			}, ([result]) => {
-				localStorage[`result-${tabID}`] = result;
-				chrome.tabs.executeScript(tabID, {
-					file: "content-scripts/add.js"
-				});
-			});
-			chrome.browserAction.setIcon({
-				path: JSON.parse(localStorage.browserActionIconActive),
-				tabId: tabID
-			});
-		}
+		chrome.tabs.executeScript(tabID, {
+			file: `content-scripts/${active ? "remove" : "add"}.js`
+		});
+		chrome.browserAction.setIcon({
+			path: JSON.parse(localStorage[
+				active ? "browserActionIconActive" : "browserActionIconInactive"
+			]),
+			tabId: tabID
+		});
 	});
 });
 
@@ -67,15 +54,4 @@ chrome.storage.onChanged.addListener((changes, area) => {
 	Object.keys(changes).forEach(key => {
 		localStorage[`storage-${area}-${key}`] = changes[key].newValue;
 	});
-});
-
-chrome.runtime.onMessage.addListener((message, sender) => {
-	if(message === "want-result") {
-		if("tab" in sender) {
-			chrome.tabs.sendMessage(sender.tab.id, localStorage[`result-${sender.tab.id}`]);
-			localStorage.removeItem(`result-${sender.tab.id}`);
-		} else {
-			chrome.runtime.sendMessage(localStorage["result-options"]);
-		}
-	}
 });
