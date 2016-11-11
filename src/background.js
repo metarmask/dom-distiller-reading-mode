@@ -61,3 +61,14 @@ chrome.storage.onChanged.addListener((changes, area) => {
 		localStorage[`storage-${area}-${key}`] = changes[key].newValue;
 	});
 });
+
+chrome.runtime.onMessage.addListener((message, sender, respond) => {
+	if(message === "distill-tab") {
+		chrome.tabs.executeScript(sender.tab.id, {
+			file: "external/dom-distiller-core/javascript/domdistiller.js"
+		}, ([result]) => {
+			respond(result);
+		});
+		return true;
+	}
+});

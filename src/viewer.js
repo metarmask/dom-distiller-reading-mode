@@ -40,12 +40,8 @@ if(isOptionsPage()) {
 	script.src = "../../../options/options.js";
 	document.head.appendChild(script);
 } else {
-	chrome.tabs.getCurrent(({id}) => {
-		chrome.tabs.executeScript(id, {
-			file: "external/dom-distiller-core/javascript/domdistiller.js"
-		}, ([result]) => {
-			handleResult(result);
-		});
+	chrome.runtime.sendMessage("distill-tab", result => {
+		handleResult(result);
 	});
 }
 
