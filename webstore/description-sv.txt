@@ -1,0 +1,27 @@
+Har du någonsin besökt en sida där texten är så ful att du får huvudvärk när du försöker läsa den eller där innehållet är svårt att hitta på grund av oviktiga sidopaneler och delningsknappar? Det här tillägget kommer att fixa det åt dig.
+
+Det här tillägget räknar ut vad som är viktigt på sidan och visar bara det på samma konsekventa sätt varje gång.
+
+Använder koden som ligger bakom det mobilvänliga läget på mobiler.
+
+Planerade funktioner:
+
+* Typsnittsskalningsstöd
+
+* Sammansättning av flersidiga artiklar
+
+Uppdateringsnoteringar:
+
+1.2:
+    * Fixade att orginalsidan hoppar till toppen när den destillerade versionen döljs
+    * Fixade att laddningsindikatorn inte visades
+    * La till svensk översättning
+
+1.1:
+    * Prestandaförbättringar och buggfixar
+
+Tilläggsikoner härleddes från följande ikoner:
+* github.com/google/material-design-icons/blob/c6fc87c71001975022f979a2f6b031620e9c7ff1/action/svg/production/ic_chrome_reader_mode_48px.svg
+* github.com/google/material-design-icons/blob/c6fc87c71001975022f979a2f6b031620e9c7ff1/editor/svg/production/ic_bubble_chart_48px.svg
+
+Båda av ikonerna härledda från är licenserade under CC BY 4.0 (creativecommons.org/licenses/by/4.0)

@@ -10,6 +10,16 @@ Planned features:
 
 * Multi-page article concatenation
 
+Update notes:
+
+1.2:
+    * Fixed original page jumping to top when hiding distilled version
+    * Fixed loading indicator not being shown
+    * Added swedish translation
+
+1.1:
+    * Performance enhancements and bug fixes
+
 Extension icons were derived from the following icons:
 * github.com/google/material-design-icons/blob/c6fc87c71001975022f979a2f6b031620e9c7ff1/action/svg/production/ic_chrome_reader_mode_48px.svg
 * github.com/google/material-design-icons/blob/c6fc87c71001975022f979a2f6b031620e9c7ff1/editor/svg/production/ic_bubble_chart_48px.svg
