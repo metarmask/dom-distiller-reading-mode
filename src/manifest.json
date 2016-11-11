@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
-	"name": "DOM Distiller Reading Mode",
-	"short_name": "DOM Distiller",
-	"description": "Distill and display only the important content to enjoy a more focused reading experience",
+	"name": "__MSG_name__",
+	"short_name": "__MSG_short_name__",
+	"description": "__MSG_description__",
 	"version": "1.1",
 	"minimum_chrome_version": "54",
 	"icons": {
@@ -11,6 +11,7 @@
 		"32": "icons/extension.svg-32.png",
 		"16": "icons/extension.svg-16.png"
 	},
+	"default_locale": "en",
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
@@ -26,7 +27,7 @@
 			"24": "icons/browserAction/inactive.svg-24.png",
 			"32": "icons/browserAction/inactive.svg-32.png"
 		},
-		"default_title": "Distill"
+		"default_title": "__MSG_browser_action_tooltip_inactive__"
 	},
 	"options_ui": {
 		"page": "options/options.html",

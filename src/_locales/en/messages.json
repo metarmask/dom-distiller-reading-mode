@@ -1,0 +1,60 @@
+{
+	"name": {
+		"message": "DOM Distiller Reading Mode"
+	},
+	"short_name": {
+		"message": "DOM Distiller"
+	},
+	"description": {
+		"message": "Distill and display only the important content to enjoy a more focused reading experience"
+	},
+	"browser_action_tooltip_inactive": {
+		"message": "Distill"
+	},
+	"browser_action_tooltip_active": {
+		"message": "Stop showing distilled version"
+	},
+	"options_introduction": {
+		"message": "Here you'll find two options that change the appearance of distilled pages.",
+		"description": "Acts as filler text so the options page works as a preview"
+	},
+	"options_theme_title": {
+		"message": "Themes"
+	},
+	"options_theme_description": {
+		"message": "Themes change the color of the background and the text. There are three different colors to choose from: light, dark and sepia"
+	},
+	"options_theme_name_light": {
+		"message": "Light"
+	},
+	"options_theme_name_dark": {
+		"message": "Dark"
+	},
+	"options_theme_name_sepia": {
+		"message": "Sepia"
+	},
+	"options_font_title": {
+		"message": "Fonts"
+	},
+	"options_font_description": {
+		"message": "You also have the option to change fonts. Three different fonts are available for your choosing: sans serif, serif and monospace"
+	},
+	"options_font_name_sans_serif": {
+		"message": "Sans serif"
+	},
+	"options_font_name_serif": {
+		"message": "Serif"
+	},
+	"options_font_name_monospace": {
+		"message": "Monospace"
+	},
+	"options_font_abbreviation_sans_serif": {
+		"message": "Sa"
+	},
+	"options_font_abbreviation_serif": {
+		"message": "Se"
+	},
+	"options_font_abbreviation_monospace": {
+		"message": "Mo"
+	}
+}
