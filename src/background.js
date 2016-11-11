@@ -47,6 +47,12 @@ chrome.browserAction.onClicked.addListener(({id: tabID}) => {
 			]),
 			tabId: tabID
 		});
+		chrome.browserAction.setTitle({
+			title: chrome.i18n.getMessage(
+				`browser_action_tooltip_${active ? "inactive" : "active"}`
+			),
+			tabId: tabID
+		});
 	});
 });
 
