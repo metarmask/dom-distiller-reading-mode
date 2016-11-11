@@ -22,6 +22,7 @@ function handleResult(result) {
 	const {"1": resultTitle, "2": {"1": resultHTML}} = result;
 	addToPage(resultHTML);
 	setTitle(resultTitle);
+	// true stands for isLastPage, hides indicator
 	showLoadingIndicator(true);
 }
 
