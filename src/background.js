@@ -43,7 +43,7 @@ chrome.browserAction.onClicked.addListener(({id: tabID}) => {
 		});
 		chrome.browserAction.setIcon({
 			path: JSON.parse(localStorage[
-				active ? "browserActionIconActive" : "browserActionIconInactive"
+				active ? "browserActionIconInactive" : "browserActionIconActive"
 			]),
 			tabId: tabID
 		});
