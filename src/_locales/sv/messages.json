@@ -1,0 +1,59 @@
+{
+	"name": {
+		"message": "DOM-destillerare läsningläge"
+	},
+	"short_name": {
+		"message": "DOM-destillerare"
+	},
+	"description": {
+		"message": "Destillera och visa bara det viktiga innehållet för att njuta av en mer fokuserad läsningsupplevelse"
+	},
+	"browser_action_tooltip_inactive": {
+		"message": "Destillera"
+	},
+	"browser_action_tooltip_active": {
+		"message": "Sluta visa destillerad version"
+	},
+	"options_introduction": {
+		"message": "Här kan du hitta två inställningar som ändrar utseendet av destillerade sidor."
+	},
+	"options_theme_title": {
+		"message": "Teman"
+	},
+	"options_theme_description": {
+		"message": "Teman ändrar färgen på bakgrunden och texten. Det finns tre olika färger att välja emellan: ljus, mörk and sepia"
+	},
+	"options_theme_name_light": {
+		"message": "Ljus"
+	},
+	"options_theme_name_dark": {
+		"message": "Mörk"
+	},
+	"options_theme_name_sepia": {
+		"message": "Sepia"
+	},
+	"options_font_title": {
+		"message": "Typsnitt"
+	},
+	"options_font_description": {
+		"message": "Du har också alternativet att ändra typsnitt. Tre olika typsnitt finns tillgängliga för dig att välja: utan seriff, seriff och fast bredd"
+	},
+	"options_font_name_sans_serif": {
+		"message": "Utan seriff"
+	},
+	"options_font_name_serif": {
+		"message": "Seriff"
+	},
+	"options_font_name_monospace": {
+		"message": "Fast bredd"
+	},
+	"options_font_abbreviation_sans_serif": {
+		"message": "Ut"
+	},
+	"options_font_abbreviation_serif": {
+		"message": "Se"
+	},
+	"options_font_abbreviation_monospace": {
+		"message": "Fa"
+	}
+}
