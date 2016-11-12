@@ -21,7 +21,7 @@ addEventListener("message", ({data, origin}) => {
 	iframe.src = chrome.runtime.getURL("external/dom-distiller-core/html/dom_distiller_viewer.html");
 
 	const style = {
-		zIndex: 100000000,
+		zIndex: 2147483647,
 		position: "fixed",
 		left: 0,
 		right: 0,
