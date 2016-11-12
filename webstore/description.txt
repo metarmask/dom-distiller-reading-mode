@@ -12,6 +12,12 @@ Planned features:
 
 Update notes:
 
+1.4:
+    * Fixed page scrollbar overlaying the scrollbar of the viewer
+
+1.3:
+    * Fixed distilled content never getting shown
+
 1.2:
     * Fixed original page jumping to top when hiding distilled version
     * Fixed loading indicator not being shown

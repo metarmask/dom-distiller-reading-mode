@@ -12,6 +12,12 @@ Planerade funktioner:
 
 Uppdateringsnoteringar:
 
+1.4:
+    * Fixade att sidans rullningslist överlappade rullningslisten för visaren
+
+1.3:
+    * Fixade att det destillerade innehållet aldrig visades
+
 1.2:
     * Fixade att orginalsidan hoppar till toppen när den destillerade versionen döljs
     * Fixade att laddningsindikatorn inte visades

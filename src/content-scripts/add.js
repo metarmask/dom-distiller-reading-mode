@@ -1,4 +1,7 @@
 sessionStorage.oldTitle = document.title;
+sessionStorage.oldBodyStyle = document.body.getAttribute("style");
+
+document.body.setAttribute("style", "overflow: hidden !important");
 
 addEventListener("message", ({data, origin}) => {
 	if(origin !== `chrome-extension://${chrome.runtime.id}`) {
