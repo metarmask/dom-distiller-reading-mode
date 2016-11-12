@@ -1,7 +1,9 @@
 /* eslint-env node */
+const optional = require("optional");
+
 const gulp = require("gulp");
 const replace = require("gulp-replace");
-const svg2PNG = require("gulp-svg2png");
+const svg2PNG = optional("gulp-svg2png");
 const rename = require("gulp-rename");
 const util = require("gulp-util");
 
@@ -11,6 +13,7 @@ const vinylFS = require("vinyl-fs");
 
 /* Paths */
 const allInside = "/**/*";
+const transparentPixel = "transparent-pixel.png";
 const srcFolder = "src";
 const srcIcons = `${srcFolder}/icons`;
 const srcManifest = `${srcFolder}/manifest.json`;
@@ -82,12 +85,17 @@ gulp.task("build", ["clean"], () => {
 		(() => {
 			const convertions = [];
 			const addConvertion = ({svgPath, pngPath, size, afterSrc}) => {
+				const first = gulp.src(svgPath, {base: srcFolder})
+				.pipe(afterSrc ? afterSrc : util.noop())
+				.pipe(gulp.dest(outFolder));
+				let second;
+				if(svg2PNG) {
+					second = first.pipe(svg2PNG({width: size, height: size}));
+				} else {
+					second = gulp.src(transparentPixel);
+				}
 				convertions.push(streamToPromise(
-					gulp.src(svgPath, {base: srcFolder})
-					.pipe(afterSrc ? afterSrc : util.noop())
-					.pipe(gulp.dest(outFolder))
-					.pipe(svg2PNG({width: size, height: size}))
-					.pipe(rename(pngPath))
+					second.pipe(rename(pngPath))
 					.pipe(gulp.dest(outFolder))
 				));
 			};
