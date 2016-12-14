@@ -5,18 +5,6 @@
 	document.head.insertBefore(link, document.head.querySelector("link"));
 }
 
-const domParser = new DOMParser();
-
-function parseHTML(html) {
-	const fragment = document.createDocumentFragment();
-	const parsedDocument = domParser.parseFromString(html, "text/html");
-	["head", "body"].forEach(baseElement => {
-		Array.from(parsedDocument[baseElement].childNodes)
-		.forEach(node => fragment.appendChild(node));
-	});
-	return fragment;
-}
-
 const options = {
 	theme: [
 		"light",
