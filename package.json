@@ -15,18 +15,6 @@
 		"gulp-svg2png": "^2.0.2"
 	},
 	"devDependencies": {
-		"eslint": "^3.9.1",
-		"eslint-plugin-metarmask": "***REMOVED***"
-	},
-	"eslintConfig": {
-		"env": {
-			"browser": true,
-			"webextensions": true,
-			"es6": true
-		},
-		"plugins": [
-			"metarmask"
-		],
-		"extends": "plugin:metarmask/default"
+		"eslint": "^3.9.1"
 	}
 }
