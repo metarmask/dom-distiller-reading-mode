@@ -15,7 +15,8 @@ for (let i = 0; i < msgXPathResult.snapshotLength; i++) {
 	const messageName = Array.from(textNode.nodeValue).slice(
 		msgExpressionStart.length,
 		-msgExpressionEnd.length
-	).join("");
+	)
+	.join("");
 	textNode.nodeValue = chrome.i18n.getMessage(messageName);
 }
 

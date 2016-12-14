@@ -29,7 +29,7 @@ function handleResult(result) {
 function isOptionsPage() {
 	try {
 		return top.location.href === chrome.runtime.getURL("options/options.html");
-	} catch (error) {
+	} catch(error) {
 		return false;
 	}
 }
