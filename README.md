@@ -1,7 +1,6 @@
-## Building
+# DOM Distiller Reading Mode
+Uses [DOM Distiller](https://github.com/chromium/dom-distiller) to figure out what is important on a page and displays it in the same consistent way every time.
 
-Instructions on how to build this extension can be found in BUILDING.md
-
-## Attribution
-
-Attribution for some file can be found in webstore/description.txt
+## Resources
+* [How to build the extension](BUILDING.md)
+* [Attribution for some of the files](webstore/description.txt)
