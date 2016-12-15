@@ -12,6 +12,10 @@ Planerade funktioner:
 
 Uppdateringsnoteringar:
 
+1.5:
+    * Fixade att vissa sidor visades ovanför visaren
+    * Uppdaterade till den senaste DOM-destillerarversionen
+
 1.4:
     * Fixade att sidans rullningslist överlappade rullningslisten för visaren
 
