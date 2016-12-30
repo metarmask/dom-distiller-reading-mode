@@ -11,6 +11,8 @@ Planned features:
 * Multi-page article concatenation
 
 Update notes:
+1.6:
+    * Added feedback form when uninstalling
 
 1.5:
     * Fixed some sites appearing on top of viewer

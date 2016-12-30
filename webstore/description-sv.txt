@@ -12,6 +12,9 @@ Planerade funktioner:
 
 Uppdateringsnoteringar:
 
+1.6:
+    * La till ett feedbacksformulär vid avinstallation
+
 1.5:
     * Fixade att vissa sidor visades ovanför visaren
     * Uppdaterade till den senaste DOM-destillerarversionen
