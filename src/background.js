@@ -1,4 +1,5 @@
 chrome.runtime.onInstalled.addListener(({reason}) => {
+	chrome.runtime.setUninstallURL("https://goo.gl/forms/r0WChsdUmHuEQ9PS2");
 	if(reason === "install") {
 		chrome.storage.sync.get({
 			theme: "light",
