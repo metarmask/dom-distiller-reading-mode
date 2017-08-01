@@ -1,0 +1,6 @@
+[submodule "dom-distiller"]
+	path = src/external/dom-distiller
+	url = https://github.com/chromium/dom-distiller
+[submodule "src/external/chromium/src"]
+	path = src/external/chromium/src
+	url = https://chromium.googlesource.com/chromium/src

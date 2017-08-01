@@ -1,24 +1,29 @@
 # Building
+1. Fetch and checkout submodules:
 
-1. Install the Gulp CLI:
+       git submodule update --init --depth 1 --recursive
 
-       npm install -g gulp-cli
+2. Change working directory to the DOM distiller repository:
 
-2. Install the dependencies:
+       cd src/external/dom-distiller
+
+3. Follow the instructions for "Developing with Vagrant" in [the DOM Distiller README](src/external/dom-distiller/README.md).
+
+4. Build the DOM Distiller JavaScript:
+
+       cd /vagrant &&
+       ant extractjs &&
+       exit
+
+5. Change working directory to the project root:
+
+       cd ../../..
+
+5. Install NPM dependencies:
 
        npm install
 
-3. Get the built JavaScript version of DOM Distiller from the dom-distiller-dist repository.
+6. Install and run the Gulp CLI:
 
-   Navigate to the `src/external` folder and clone the repository:
-
-       git clone https://github.com/chromium/dom-distiller-dist.git
-
-4. Get [the core folder of the Chromium component dom_distiller](https://chromium.googlesource.com/chromium/src/+archive/master/components/dom_distiller/core.tar.gz) and put it into `src/external/chromium/components/dom_distiller/`.
-
-5. Get [the LICENSE file](https://chromium.googlesource.com/chromium/src/+/master/LICENSE) and put it into `src/external/chromium/`
-
-6. Build the project using Gulp:
-
-       gulp build
-
+       npm install -g gulp-cli &&
+       gulp

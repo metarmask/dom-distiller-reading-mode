@@ -19,9 +19,9 @@ const srcIcons = `${srcFolder}/icons`;
 const srcManifest = `${srcFolder}/manifest.json`;
 const srcExternal = `${srcFolder}/external`;
 const inactiveIcon = `${srcIcons}/browserAction/inactive.svg`;
-const distillerDistJS = `${srcExternal}/dom-distiller-dist/js/domdistiller.js`;
+const distillerJS = `${srcExternal}/dom-distiller/out/domdistiller.js`;
 
-const distillerCore = `${srcExternal}/chromium/components/dom_distiller/core`;
+const distillerCore = `${srcExternal}/chromium/src/components/dom_distiller/core`;
 const distillerCoreViewerHTML = `${distillerCore}/html/dom_distiller_viewer.html`;
 const distillerCoreWrapper = `${distillerCore}/javascript/domdistiller.js`;
 const distillerCoreSpinner = `${distillerCore}/images/dom_distiller_material_spinner.svg`;
@@ -135,7 +135,7 @@ gulp.task("build", ["clean"], () => {
 				{base: distillerCore}
 			);
 			wrapperSource.pause();
-			const distSource = gulp.src(distillerDistJS);
+			const distSource = gulp.src(distillerJS);
 			distSource.on("data", ({contents: dist}) => {
 				streamToPromise(
 					wrapperSource
