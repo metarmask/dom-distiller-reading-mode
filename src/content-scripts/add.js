@@ -18,7 +18,7 @@ addEventListener("message", ({data, origin}) => {
 		iframe.contentWindow.focus();
 	});
 	iframe.id = sessionStorage.iframeID;
-	iframe.src = chrome.runtime.getURL("external/dom-distiller-core/html/dom_distiller_viewer.html");
+	iframe.src = chrome.runtime.getURL("$$(CHROME_DD_CORE)/html/dom_distiller_viewer.html");
 
 	const style = {
 		zIndex: 2147483647,

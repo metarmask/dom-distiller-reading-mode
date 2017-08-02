@@ -34,6 +34,6 @@
 		"chrome_style": true
 	},
 	"web_accessible_resources": [
-		"external/dom-distiller-core/html/dom_distiller_viewer.html"
+		"$$(CHROME_DD_CORE)/html/dom_distiller_viewer.html"
 	]
 }

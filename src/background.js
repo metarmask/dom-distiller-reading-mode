@@ -66,7 +66,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 chrome.runtime.onMessage.addListener((message, sender, respond) => {
 	if(message === "distill-tab") {
 		chrome.tabs.executeScript(sender.tab.id, {
-			file: "external/dom-distiller-core/javascript/domdistiller.js"
+			file: "$$(CHROME_DD_CORE)/javascript/domdistiller.js"
 		}, ([result]) => {
 			respond(result);
 		});

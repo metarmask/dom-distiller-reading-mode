@@ -1,173 +1,203 @@
 /* eslint-env node */
-const optional = require("optional");
+const del            = require("del");
+const Gulp           = require("gulp"                 );
+const changedInPlace = require("gulp-changed-in-place");
+const rename         = require("gulp-rename"          );
+const replace        = require("gulp-replace"         );
+const pStream        = require("stream-to-promise"    );
+const streamToBuffer = require("vinyl-buffer"         );
 
-const gulp = require("gulp");
-const replace = require("gulp-replace");
-const svg2PNG = optional("gulp-svg2png");
-const rename = require("gulp-rename");
-const util = require("gulp-util");
+const optional = require ("optional"    );
+const svg2PNG  = optional("gulp-svg2png");
 
-const del = require("del");
-const streamToPromise = require("stream-to-promise");
-const vinylFS = require("vinyl-fs");
+const paths = {
+	chromeDDCore: "src/external/chromium/src/components/dom_distiller/core"
+};
 
-/* Paths */
-const allInside = "/**/*";
-const transparentPixel = "transparent-pixel.png";
-const srcFolder = "src";
-const srcIcons = `${srcFolder}/icons`;
-const srcManifest = `${srcFolder}/manifest.json`;
-const srcExternal = `${srcFolder}/external`;
-const inactiveIcon = `${srcIcons}/browserAction/inactive.svg`;
-const distillerJS = `${srcExternal}/dom-distiller/out/domdistiller.js`;
+const internalSubstitutionRegex = /\$\$\((.+?)\)/g;
+const internalSubstitutions = {
+	CHROME_DD_CORE: paths.chromeDDCore.replace(/^src\//, "")
+};
 
-const distillerCore = `${srcExternal}/chromium/src/components/dom_distiller/core`;
-const distillerCoreViewerHTML = `${distillerCore}/html/dom_distiller_viewer.html`;
-const distillerCoreWrapper = `${distillerCore}/javascript/domdistiller.js`;
-const distillerCoreSpinner = `${distillerCore}/images/dom_distiller_material_spinner.svg`;
-const chromiumLicense = `${srcExternal}/chromium/LICENSE`;
-
-const outFolder = "out";
-const outExternal = `${outFolder}/external`;
-const outDistillerCore = `${outExternal}/dom-distiller-core`;
-
-function walkPairs(object, pairStep) {
-	Object.keys(object).forEach(key => {
-		pairStep(key, object[key]);
-		if(object[key] instanceof Object) {
-			walkPairs(object[key], pairStep);
-		}
-	});
+// `Gulp.src(...).pipe(changedInPlace({firstPass: true}))`
+// but doesn't buffer before change check
+function srcChanged(...args) {
+	if(typeof args[args.length - 1] !== "object") {
+		args.push({});
+	}
+	args[args.length - 1].buffer = false;
+	return Gulp.src(...args)
+	       .pipe(changedInPlace({
+				firstPass: true,
+				howToDetermineDifference: "modification-time"
+			}))
+	       .pipe(streamToBuffer());
 }
 
-gulp.task("clean", () => {
+Gulp.task("simple internal resources", () =>
+	srcChanged("src/{!(external),!(external)/**/*}", {ignore: "src/icons/**/*.svg"})
+	.pipe(replace(internalSubstitutionRegex, (_, name) => {
+		if(name in internalSubstitutions) {
+			return internalSubstitutions[name];
+		} else {
+			throw new Error("Unknown substitution: \"" + name + "\"");
+		}
+	}))
+	.pipe(Gulp.dest("out"))
+);
+
+Gulp.task("simple external resources", () =>
+	Gulp.src(
+		"src/external/chromium/src/" +
+		"{" +
+			"LICENSE," +
+
+			"components/dom_distiller/core/" +
+			"{" +
+				"css/distilledpage.css," +
+
+				"javascript/dom_distiller_viewer.js" +
+			"}" +
+		"}",
+		{base: "src"}
+	)
+	.pipe(Gulp.dest("out"))
+);
+
+Gulp.task("viewer HTML substitution", async () => {
+	/*
+		Placeholders (used, $n, description)
+		  | $1 | <title>
+		x | $2 | CSS (not in tag)
+		x | $3 | Body `class` attribute
+		  | $4 | <noscript> title
+		  | $5 | <noscript> content
+		x | $6 | SVG spinner
+		  | $7 | `data-original-url` attribute for close link
+		  | $8 | Close link content
+	*/
+	const spinner = pStream(Gulp.src(
+		paths.chromeDDCore + "/images/dom_distiller_material_spinner.svg"
+	));
+	const viewerHTMLSource = Gulp.src(
+		paths.chromeDDCore + "/html/dom_distiller_viewer.html", {base: "src"}
+	);
+	await pStream(
+		viewerHTMLSource
+		.pipe(replace(
+			"$2",
+
+			`<link rel="stylesheet" href="../css/distilledpage.css">` + "\n" +
+			`<script src="../javascript/dom_distiller_viewer.js" defer></script>` + "\n" +
+			`<script src="../../../../../../../viewer.js" defer></script>`
+		))
+		.pipe(replace("$3", "light sans-serif"))
+		.pipe(replace("$6", (await spinner)[0].contents.toString()))
+		.pipe(Gulp.dest("out"))
+	)
+});
+
+Gulp.task("distiller wrapper substitution", async () => {
+	const builtJS = pStream(Gulp.src(
+		"src/external/dom-distiller/out/domdistiller.js"
+	));
+	// Split into multiple statements because `await builtJS`
+	const wrapperSource = Gulp.src(
+		paths.chromeDDCore + "/javascript/domdistiller.js",
+		{base: "src"}
+	);
+	await pStream(
+		wrapperSource
+		.pipe(replace(
+			/<include src=".+?domdistiller.js"\/>/,
+			(await builtJS)[0].contents.toString()
+		))
+		.pipe(replace("})($$OPTIONS, $$STRINGIFY)", "})({}, false)"))
+		.pipe(Gulp.dest("out"))
+	);
+});
+
+Gulp.task("external substitution", Gulp.parallel(
+	"viewer HTML substitution",
+	"distiller wrapper substitution"
+));
+
+const svgPNGPathRegex = /(.+?\.svg)-(\d+)\.png/;
+Gulp.task("SVG convertion", async () => {
+	const [{contents: manifest}] = await pStream(Gulp.src("src/manifest.json"));
+	const svgs = new Map();
+	JSON.parse(manifest.toString(), (key, value) => {
+		if(typeof value === "string") {
+			const match = value.match(svgPNGPathRegex);
+			if(!match) return value;
+			const [, svgPath, size] = match;
+			if(!svgs.has(svgPath)) svgs.set(svgPath, {
+				sizes: new Set(),
+				src: srcChanged("src/" + svgPath)
+			});
+			svgs.get(svgPath).sizes.add(size);
+		}
+		return value;
+	});
+	{
+		// Generate active icon from inactive
+		const [path, {sizes, src}] =
+			[...svgs]
+		    .find(([k]) => k.endsWith("inactive.svg"));
+		const activePath = path.replace("inactive.svg", "active.svg");
+		svgs.set(activePath, {
+			sizes,
+			// Reusing `src` here causes both to be replaced (!?)
+			src: Gulp.src("src/" + path)
+			     .pipe(replace(`fill="#9c27b0"`, `fill="#ff4081"`))
+		});
+	}
+	const promises = [];
+	for(const [path, {sizes, src}] of svgs) {
+		for(const size of sizes) {
+			let start;
+			if(svg2PNG) {
+				start = src
+				        .pipe(svg2PNG({width: size, height: size}));
+			} else {
+				start = Gulp.src("transparent-pixel.png");
+			}
+			promises.push(pStream(
+				start
+				.pipe(rename(`${path}-${size}.png`))
+				.pipe(Gulp.dest(`out`))
+			));
+		}
+	}
+	await Promise.all(promises);
+});
+
+Gulp.task("clean", () => {
 	return del(["out"]);
 });
 
-gulp.task("build", ["clean"], () => {
-	return Promise.all([
-		streamToPromise(
-			gulp.src(
-				[
-					`${distillerCore}/css${allInside}`,
-					`${distillerCore}/images${allInside}`,
-					`${distillerCore}/html${allInside}`,
-					`${distillerCore}/javascript${allInside}`
-				].concat([
-					// Except
-					distillerCoreViewerHTML,
-					distillerCoreSpinner,
-					distillerCoreWrapper
-				].map(s => `!${s}`)),
-				{base: distillerCore}
-			)
-			.pipe(gulp.dest(outDistillerCore))
-		),
-		streamToPromise(
-			gulp.src(chromiumLicense)
-			.pipe(gulp.dest(outDistillerCore))
-		),
-		streamToPromise(
-			gulp.src(
-				[
-					srcFolder + allInside
-				].concat([
-					// Except
-					srcExternal,
-					srcExternal + allInside,
-					srcIcons,
-					srcIcons + allInside
-				].map(s => `!${s}`)),
-				{base: srcFolder}
-			)
-			.pipe(vinylFS.symlink(outFolder, {relative: true}))
-		),
-		(() => {
-			const convertions = [];
-			const addConvertion = ({svgPath, pngPath, size, afterSrc}) => {
-				const first = gulp.src(svgPath, {base: srcFolder})
-				.pipe(afterSrc ? afterSrc : util.noop())
-				.pipe(gulp.dest(outFolder));
-				let second;
-				if(svg2PNG) {
-					second = first.pipe(svg2PNG({width: size, height: size}));
-				} else {
-					second = gulp.src(transparentPixel);
-				}
-				convertions.push(streamToPromise(
-					second.pipe(rename(pngPath))
-					.pipe(gulp.dest(outFolder))
-				));
-			};
-			const svgToPNGPathRegex = /(.+?\.svg)-(\d+)\.png/;
-			gulp.src(srcManifest)
-			.on("data", ({contents: manifest}) => {
-				manifest = JSON.parse(manifest.toString());
-				walkPairs(manifest, (key, value) => {
-					if(typeof value === "string") {
-						const match = value.match(svgToPNGPathRegex);
-						if(match) {
-							const [pngPath, svgPath, size] = match;
-							const svgPathInSrc = `${srcFolder}/${svgPath}`;
-							if(svgPathInSrc === inactiveIcon) {
-								addConvertion({
-									svgPath: svgPathInSrc,
-									pngPath: pngPath.replace("inactive", "active"),
-									size,
-									afterSrc: replace(`fill="#9c27b0"`, `fill="#ff4081"`)
-								});
-							}
-							addConvertion({
-								svgPath: svgPathInSrc,
-								pngPath,
-								size
-							});
-						}
-					}
-				});
-			});
-			return Promise.all(convertions);
-		})(),
-		new Promise((resolve, reject) => {
-			// Replace parts of the wrapper script with the real distiller
-			const wrapperSource = gulp.src(
-				distillerCoreWrapper,
-				{base: distillerCore}
-			);
-			wrapperSource.pause();
-			const distSource = gulp.src(distillerJS);
-			distSource.on("data", ({contents: dist}) => {
-				streamToPromise(
-					wrapperSource
-					.pipe(replace(/\n}\)\([\D\d]+/, "\n})({}, true);\n"))
-					.pipe(replace(
-						`<include src="../../../../third_party/dom_distiller_js/dist/js/domdistiller.js"/>`,
-						dist.toString()
-					))
-					.pipe(gulp.dest(outDistillerCore))
-				).then(resolve, reject);
-				wrapperSource.resume();
-			});
-		}),
-		new Promise((resolve, reject) => {
-			const viewerHTMLSource = gulp.src(
-				distillerCoreViewerHTML,
-				{base: distillerCore}
-			);
-			viewerHTMLSource.pause();
-			const spinnerSource = gulp.src(distillerCoreSpinner);
-			spinnerSource.on("data", ({contents: spinner}) => {
-				streamToPromise(
-					viewerHTMLSource.pipe(replace("$6", spinner.toString()))
-					.pipe(replace("$2", `<link href="../css/distilledpage.css" rel="stylesheet" type="text/css">
-<script src="../javascript/dom_distiller_viewer.js" defer></script>
-<script src="../../../viewer.js" defer></script>`))
-					.pipe(gulp.dest(outDistillerCore))
-				).then(resolve, reject);
-				viewerHTMLSource.resume();
-			});
-		})
-	]);
+Gulp.task("build", Gulp.series(
+	"clean",
+	Gulp.parallel(
+		"simple internal resources",
+		"simple external resources",
+		"external substitution",
+		"SVG convertion"
+	)
+));
+
+Gulp.task("watch", async () => {
+	console.info("Watching SVG files in src/icons");
+	Gulp.watch(
+		["src/icons/**/*.svg"],
+		Gulp.parallel("SVG convertion")
+	);
+	console.info("Watching all non-SVG files in src excluding src/external");
+	Gulp.watch(
+		"src/{!(external),!(external)/**/*}", {ignored: "src/icons/**/*.svg"},
+		Gulp.parallel("simple internal resources")
+	);
+	await new Promise(resolve => {});
 });
 
-gulp.task("default", ["build"]);
+Gulp.task("default", Gulp.series("build", "watch"));

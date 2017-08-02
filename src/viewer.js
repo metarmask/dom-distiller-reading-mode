@@ -18,7 +18,6 @@ setTitle = (...args) => {
 };
 
 function handleResult(result) {
-	result = JSON.parse(result);
 	const {"1": resultTitle, "2": {"1": resultHTML}} = result;
 	addToPage(resultHTML);
 	setTitle(resultTitle);
