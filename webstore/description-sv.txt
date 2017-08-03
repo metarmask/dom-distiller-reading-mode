@@ -12,6 +12,10 @@ Planerade funktioner:
 
 Uppdateringsnoteringar:
 
+1.8:
+    * Kringgick problem där textriktning inte behölls ordentligt
+    * La till instruktioner för hur kortkommandon ändras i alternativ
+
 1.7:
     * Fixade att alternativ inte laddades
     * Fixade övergången till temafärger när visaren laddas

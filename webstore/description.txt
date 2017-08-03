@@ -12,6 +12,10 @@ Planned features:
 
 Update notes:
 
+1.8:
+    * Worked around issue with text direction not being retained properly
+    * Added instructions for how to change keyboard shortcut to options
+
 1.7:
     * Fixed options not loading
     * Fixed transition to theme colors when viewer loads
