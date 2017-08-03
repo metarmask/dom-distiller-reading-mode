@@ -63,13 +63,37 @@ chrome.storage.onChanged.addListener((changes, area) => {
 	});
 });
 
+function isOptions(sender) {
+	return !sender.tab; 
+}
+
+const respondToOptions = new Set();
+function tryOptionsResponse() {
+	if("result-options" in localStorage) {
+		const parsed = JSON.parse(localStorage["result-options"]);
+		for(const respond of respondToOptions) {
+			respond(parsed);
+		}
+		respondToOptions.clear();
+	}
+}
 chrome.runtime.onMessage.addListener((message, sender, respond) => {
 	if(message === "distill-tab") {
+		if(isOptions(sender)) {
+			respondToOptions.add(respond);
+			tryOptionsResponse();
+			return true;
+		}
 		chrome.tabs.executeScript(sender.tab.id, {
 			file: "$$(CHROME_DD_CORE)/javascript/domdistiller.js"
 		}, ([result]) => {
 			respond(result);
 		});
 		return true;
+	} else if(message && message.type === "distill-result") {
+		if(isOptions(sender)) {
+			localStorage["result-options"] = JSON.stringify(message.result);
+			tryOptionsResponse();
+		}
 	}
 });

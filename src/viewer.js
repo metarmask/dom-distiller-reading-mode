@@ -21,14 +21,6 @@ setTitle = (...args) => {
 	oldSetTitle.apply(window, args);
 };
 
-function handleResult(result) {
-	const {"1": resultTitle, "2": {"1": resultHTML}} = result;
-	addToPage(resultHTML);
-	setTitle(resultTitle);
-	// true stands for isLastPage, hides indicator
-	showLoadingIndicator(true);
-}
-
 function isOptionsPage() {
 	try {
 		return top.location.href === chrome.runtime.getURL("options/options.html");
@@ -37,16 +29,22 @@ function isOptionsPage() {
 	}
 }
 
-if(isOptionsPage()) {
-	handleResult(localStorage["result-options"]);
-	const script = document.createElement("script");
-	script.src = "../../../options/options.js";
-	document.head.appendChild(script);
-} else {
-	chrome.runtime.sendMessage("distill-tab", result => {
-		handleResult(result);
-	});
+function handleResult(result) {
+	const {"1": resultTitle, "2": {"1": resultHTML}} = result;
+	addToPage(resultHTML);
+	setTitle(resultTitle);
+	// true stands for isLastPage, hides indicator
+	showLoadingIndicator(true);
+	if(isOptionsPage()) {
+		const script = document.createElement("script");
+		script.src = chrome.runtime.getURL("options/options.js");
+		document.head.appendChild(script);
+	}
 }
+
+chrome.runtime.sendMessage("distill-tab", result => {
+	handleResult(result);
+});
 
 const storageActions = {
 	theme: useTheme,

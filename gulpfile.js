@@ -112,7 +112,26 @@ Gulp.task("distiller wrapper substitution", async () => {
 			/<include src=".+?domdistiller.js"\/>/,
 			(await builtJS)[0].contents.toString()
 		))
-		.pipe(replace("})($$OPTIONS, $$STRINGIFY)", "})({}, false)"))
+		.pipe(replace(
+			"(function(options, stringify_output) {",
+			"function applyDistiller(options = {}, stringify_output = false) {"
+		))
+		.pipe(replace(
+			"})($$OPTIONS, $$STRINGIFY)",
+
+			"" +
+`}
+if(!document.currentScript) {
+	applyDistiller();
+} else {
+	chrome.runtime.sendMessage({
+		type: "distill-result",
+		result: applyDistiller()
+	});
+}
+`
+			+ ""
+		))
 		.pipe(Gulp.dest("out"))
 	);
 });

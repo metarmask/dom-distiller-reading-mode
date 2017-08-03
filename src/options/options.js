@@ -1,7 +1,7 @@
 {
 	const link = document.createElement("link");
 	link.rel = "stylesheet";
-	link.href = "../../../options/options.css";
+	link.href = "../../../../../../../options/options.css";
 	document.head.insertBefore(link, document.head.querySelector("link"));
 }
 
