@@ -4,6 +4,7 @@ const Gulp           = require("gulp"                 );
 const changedInPlace = require("gulp-changed-in-place");
 const rename         = require("gulp-rename"          );
 const replace        = require("gulp-replace"         );
+const zip            = require("gulp-zip"             );
 const pStream        = require("stream-to-promise"    );
 const streamToBuffer = require("vinyl-buffer"         );
 
@@ -220,3 +221,14 @@ Gulp.task("watch", async () => {
 });
 
 Gulp.task("default", Gulp.series("build", "watch"));
+
+Gulp.task("zip", async () => {
+	const manifest = pStream(Gulp.src("out/manifest.json"));
+	const src = Gulp.src("out/**/*");
+	const {version} = JSON.parse((await manifest)[0].contents.toString());
+	return pStream(
+		src
+		.pipe(zip(`dom-distiller-reading-mode-${version}.zip`))
+		.pipe(Gulp.dest("."))
+	);
+});
