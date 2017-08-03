@@ -4,8 +4,12 @@
 // Makes regular text have the regular text size
 document.body.style.fontSize = "1.33333333em";
 
+document.body.style.transitionDuration = "0s";
 // Has to be synchronous to prevent white flash
 document.body.className = `${localStorage["storage-sync-theme"]} ${localStorage["storage-sync-font"]}`;
+requestAnimationFrame(() => {
+	document.body.style.transitionDuration = "";
+});
 
 const baseElement = document.createElement("base");
 baseElement.target = "_top";
