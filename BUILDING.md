@@ -23,7 +23,6 @@
 
        npm install
 
-6. Install and run the Gulp CLI:
+6. Run Gulp:
 
-       npm install -g gulp-cli &&
-       gulp
+       ./node_modules/gulp/bin/gulp.js
