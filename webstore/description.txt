@@ -11,6 +11,12 @@ Planned features:
 * Multi-page article concatenation
 
 Update notes:
+
+1.7:
+    * Fixed options not loading
+    * Fixed transition to theme colors when viewer loads
+    * Updated DOM Distiller resources to the latest versions
+
 1.6:
     * Added feedback form when uninstalling
 

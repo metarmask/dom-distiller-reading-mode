@@ -12,6 +12,11 @@ Planerade funktioner:
 
 Uppdateringsnoteringar:
 
+1.7:
+    * Fixade att alternativ inte laddades
+    * Fixade övergången till temafärger när visaren laddas
+    * Uppdaterade DOM-destillerarresurser till de senaste versionerna
+
 1.6:
     * La till ett feedbacksformulär vid avinstallation
 
