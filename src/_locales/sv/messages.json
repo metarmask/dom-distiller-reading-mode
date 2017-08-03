@@ -55,5 +55,11 @@
 	},
 	"options_font_abbreviation_monospace": {
 		"message": "Fa"
+	},
+	"options_shortcut_title": {
+		"message": "Kortkommando"
+	},
+	"options_shortcut_description": {
+		"message": "Om föredrar att aktivera tillägget med ditt tangentbord är du kanske intresserad av att sätta ett kortkommando. För att komma åt kortkommandon för alla tillägg, klicka på \"Kortkommandon\" längst ner i listan av tillägg."
 	}
 }

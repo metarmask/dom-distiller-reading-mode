@@ -56,5 +56,11 @@
 	},
 	"options_font_abbreviation_monospace": {
 		"message": "Mo"
+	},
+	"options_shortcut_title": {
+		"message": "Keyboard shortcut"
+	},
+	"options_shortcut_description": {
+		"message": "If you prefer to activate the extension using your keyboard you may be interested in setting a keyboard shortcut. To access shortcuts for all extensions, click \"Keyboard shortcuts\" at the bottom of the list of extensions."
 	}
 }
