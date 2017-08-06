@@ -214,7 +214,8 @@ Gulp.task("watch", async () => {
 	);
 	console.info("Watching all non-SVG files in src excluding src/external");
 	Gulp.watch(
-		"src/{!(external),!(external)/**/*}", {ignored: "src/icons/**/*.svg"},
+		// Cannot use same glob as in Gulp.src
+		"src/**/*", {ignored: ["src/icons/**/*.svg", "src/external/**/*"]},
 		Gulp.parallel("simple internal resources")
 	);
 	await new Promise(resolve => {});
