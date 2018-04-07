@@ -42,3 +42,12 @@
 .select-button:focus::before, .select-button:hover::before {
 	color: inherit;
 }
+
+#emergency-css {
+	display: flex;
+	align-items: center;
+}
+
+#emergency-css > * {
+	margin: 1em;
+}

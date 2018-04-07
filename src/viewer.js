@@ -14,6 +14,16 @@ requestAnimationFrame(() => {
 	document.body.style.transitionDuration = "";
 });
 
+// Emergency CSS
+let emergencyCSSStyle;
+{
+	const style = document.createElement("style");
+	style.id = "emergency-css-style";
+	style.textContent = localStorage["storage-sync-emergency-css"];
+	document.head.appendChild(style);
+	emergencyCSSStyle = style;
+}
+
 const baseElement = document.createElement("base");
 baseElement.target = "_top";
 document.head.appendChild(baseElement);
@@ -51,7 +61,10 @@ chrome.runtime.sendMessage("distill-tab", result => {
 
 const storageActions = {
 	theme: useTheme,
-	font: useFontFamily
+	font: useFontFamily,
+	"emergency-css": value => {
+		emergencyCSSStyle.textContent = value;
+	}
 };
 
 chrome.storage.onChanged.addListener((changes, area) => {

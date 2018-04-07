@@ -44,3 +44,20 @@ Object.keys(options).forEach((option, index) => {
 		headings[index].nextElementSibling
 	);
 });
+
+{
+	const p = document.createElement("p");
+	const textarea = document.createElement("textarea");
+	const button = document.createElement("button");
+
+	p.appendChild(textarea);
+	p.appendChild(button);
+
+	p.id = "emergency-css";
+	textarea.placeholder = "CSS";
+	button.textContent = "✔";
+	button.addEventListener("click", event => {
+		chrome.storage.sync.set({"emergency-css": textarea.value});
+	});
+	document.querySelector("#content").appendChild(p);
+}
