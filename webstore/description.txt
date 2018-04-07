@@ -12,6 +12,9 @@ Planned features:
 
 Update notes:
 
+1.9:
+    * Added option for custom CSS
+
 1.8:
     * Worked around issue with text direction not being retained properly
     * Added instructions for how to change keyboard shortcut to options

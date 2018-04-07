@@ -12,6 +12,9 @@ Planerade funktioner:
 
 Uppdateringsnoteringar:
 
+1.9:
+    * La till alternativ för egen CSS
+
 1.8:
     * Kringgick problem där textriktning inte behölls ordentligt
     * La till instruktioner för hur kortkommandon ändras i alternativ
